@@ -76,6 +76,7 @@ spring:
     password: itssky!@#456
     # 连接超时时间
     timeout: 1000s
+    database: 6
     lettuce:
       pool:
         # 连接池中的最小空闲连接
