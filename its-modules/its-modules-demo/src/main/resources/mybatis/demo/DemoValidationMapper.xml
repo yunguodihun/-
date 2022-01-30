@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itssky.modules.demo.mapper.DemoValidationMapper">
+
+    <resultMap type="DemoValidation" id="DemoValidationResult">
+                    <result property="validationId"    column="validation_id"    />
+                    <result property="intGreaterThanZero"    column="int_greater_than_zero"    />
+                    <result property="floatGreaterThanZero"    column="float_greater_than_zero"    />
+                    <result property="integerNum"    column="integer_num"    />
+                    <result property="floatNum"    column="float_num"    />
+                    <result property="number"    column="number"    />
+                    <result property="zeroToNine"    column="zero_to_nine"    />
+                    <result property="lng"    column="lng"    />
+                    <result property="lat"    column="lat"    />
+                    <result property="chinese"    column="chinese"    />
+                    <result property="english"    column="english"    />
+                    <result property="email"    column="email"    />
+                    <result property="phoneNumber"    column="phone_number"    />
+                    <result property="zipCode"    column="zip_code"    />
+                    <result property="identityCard"    column="identity_card"    />
+                    <result property="licensePlateNumber"    column="license_plate_number"    />
+                    <result property="ip"    column="ip"    />
+                    <result property="delFlag"    column="del_flag"    />
+                    <result property="createBy"    column="create_by"    />
+                    <result property="createTime"    column="create_time"    />
+                    <result property="updateBy"    column="update_by"    />
+                    <result property="updateTime"    column="update_time"    />
+                    <result property="remark"    column="remark"    />
+            </resultMap>
+
+    <sql id="selectDemoValidationVo">
+        select validation_id, int_greater_than_zero, float_greater_than_zero, integer_num, float_num, number, zero_to_nine, lng, lat, chinese, english, email, phone_number, zip_code, identity_card, license_plate_number, ip, del_flag, create_by, create_time, update_by, update_time, remark from demo_validation
+    </sql>
+
+    <select id="selectDemoValidationList" parameterType="DemoValidation" resultMap="DemoValidationResult">
+        <include refid="selectDemoValidationVo"/>
+        <where>
+            and del_flag='0'
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </where>
+    </select>
+
+    <select id="selectDemoValidationById" parameterType="Long" resultMap="DemoValidationResult">
+        <include refid="selectDemoValidationVo"/>
+        where validation_id = #{validationId}
+    </select>
+
+    <insert id="insertDemoValidation" parameterType="DemoValidation" useGeneratedKeys="true" keyProperty="validationId">
+        insert into demo_validation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                                            <if test="intGreaterThanZero != null">int_greater_than_zero,</if>
+                                                                <if test="floatGreaterThanZero != null">float_greater_than_zero,</if>
+                                                                <if test="integerNum != null">integer_num,</if>
+                                                                <if test="floatNum != null">float_num,</if>
+                                                                <if test="number != null">number,</if>
+                                                                <if test="zeroToNine != null">zero_to_nine,</if>
+                                                                <if test="lng != null">lng,</if>
+                                                                <if test="lat != null">lat,</if>
+                                                                <if test="chinese != null">chinese,</if>
+                                                                <if test="english != null">english,</if>
+                                                                <if test="email != null">email,</if>
+                                                                <if test="phoneNumber != null">phone_number,</if>
+                                                                <if test="zipCode != null">zip_code,</if>
+                                                                <if test="identityCard != null">identity_card,</if>
+                                                                <if test="licensePlateNumber != null">license_plate_number,</if>
+                                                                <if test="ip != null">ip,</if>
+                                                                <if test="delFlag != null">del_flag,</if>
+                                                                <if test="createBy != null">create_by,</if>
+                                                                <if test="createTime != null">create_time,</if>
+                                                                <if test="updateBy != null">update_by,</if>
+                                                                <if test="updateTime != null">update_time,</if>
+                                                                <if test="remark != null">remark,</if>
+                                    </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                                                                            <if test="intGreaterThanZero != null">#{intGreaterThanZero},</if>
+                                                                <if test="floatGreaterThanZero != null">#{floatGreaterThanZero},</if>
+                                                                <if test="integerNum != null">#{integerNum},</if>
+                                                                <if test="floatNum != null">#{floatNum},</if>
+                                                                <if test="number != null">#{number},</if>
+                                                                <if test="zeroToNine != null">#{zeroToNine},</if>
+                                                                <if test="lng != null">#{lng},</if>
+                                                                <if test="lat != null">#{lat},</if>
+                                                                <if test="chinese != null">#{chinese},</if>
+                                                                <if test="english != null">#{english},</if>
+                                                                <if test="email != null">#{email},</if>
+                                                                <if test="phoneNumber != null">#{phoneNumber},</if>
+                                                                <if test="zipCode != null">#{zipCode},</if>
+                                                                <if test="identityCard != null">#{identityCard},</if>
+                                                                <if test="licensePlateNumber != null">#{licensePlateNumber},</if>
+                                                                <if test="ip != null">#{ip},</if>
+                                                                <if test="delFlag != null">#{delFlag},</if>
+                                                                <if test="createBy != null">#{createBy},</if>
+                                                                <if test="createTime != null">#{createTime},</if>
+                                                                <if test="updateBy != null">#{updateBy},</if>
+                                                                <if test="updateTime != null">#{updateTime},</if>
+                                                                <if test="remark != null">#{remark},</if>
+                                    </trim>
+    </insert>
+
+    <update id="updateDemoValidation" parameterType="DemoValidation">
+        update demo_validation
+        <trim prefix="SET" suffixOverrides=",">
+                                                                            <if test="intGreaterThanZero != null">int_greater_than_zero = #{intGreaterThanZero},</if>
+                                                                <if test="floatGreaterThanZero != null">float_greater_than_zero = #{floatGreaterThanZero},</if>
+                                                                <if test="integerNum != null">integer_num = #{integerNum},</if>
+                                                                <if test="floatNum != null">float_num = #{floatNum},</if>
+                                                                <if test="number != null">number = #{number},</if>
+                                                                <if test="zeroToNine != null">zero_to_nine = #{zeroToNine},</if>
+                                                                <if test="lng != null">lng = #{lng},</if>
+                                                                <if test="lat != null">lat = #{lat},</if>
+                                                                <if test="chinese != null">chinese = #{chinese},</if>
+                                                                <if test="english != null">english = #{english},</if>
+                                                                <if test="email != null">email = #{email},</if>
+                                                                <if test="phoneNumber != null">phone_number = #{phoneNumber},</if>
+                                                                <if test="zipCode != null">zip_code = #{zipCode},</if>
+                                                                <if test="identityCard != null">identity_card = #{identityCard},</if>
+                                                                <if test="licensePlateNumber != null">license_plate_number = #{licensePlateNumber},</if>
+                                                                <if test="ip != null">ip = #{ip},</if>
+                                                                <if test="delFlag != null">del_flag = #{delFlag},</if>
+                                                                <if test="createBy != null">create_by = #{createBy},</if>
+                                                                <if test="createTime != null">create_time = #{createTime},</if>
+                                                                <if test="updateBy != null">update_by = #{updateBy},</if>
+                                                                <if test="updateTime != null">update_time = #{updateTime},</if>
+                                                                <if test="remark != null">remark = #{remark},</if>
+                                    </trim>
+        where validation_id = #{validationId}
+    </update>
+
+    <delete id="deleteDemoValidationById" parameterType="Long">
+        delete from demo_validation where validation_id = #{validationId}
+    </delete>
+
+    <delete id="deleteDemoValidationByIds" parameterType="String">
+        delete from demo_validation where validation_id in
+        <foreach item="validationId" collection="array" open="(" separator="," close=")">
+            #{validationId}
+        </foreach>
+    </delete>
+
+    <update id="deleteLogicDemoValidationById" parameterType="Long">
+        update demo_validation
+        set del_flag='1'
+        where validation_id = #{validationId}
+    </update>
+
+    <update id="deleteLogicDemoValidationByIds" parameterType="Long">
+        update demo_validation
+        set del_flag='1'
+        where validation_id in
+        <foreach item="validationId" collection="array" open="(" separator="," close=")">
+            #{validationId}
+        </foreach>
+    </update>
+</mapper>

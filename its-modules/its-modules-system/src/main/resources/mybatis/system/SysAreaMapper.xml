@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itssky.modules.system.mapper.SysAreaMapper">
+
+    <resultMap type="SysArea" id="SysAreaResult">
+        <result property="id" column="ID"/>
+        <result property="parentId" column="PARENT_ID"/>
+        <result property="parentIds" column="PARENT_IDS"/>
+        <result property="name" column="NAME"/>
+        <result property="sort" column="SORT"/>
+        <result property="parentCode" column="PARENT_CODE"/>
+        <result property="code" column="CODE"/>
+        <result property="type" column="TYPE"/>
+        <result property="createBy" column="CREATE_BY"/>
+        <result property="createDate" column="CREATE_DATE"/>
+        <result property="updateBy" column="UPDATE_BY"/>
+        <result property="updateDate" column="UPDATE_DATE"/>
+        <result property="remarks" column="REMARKS"/>
+        <result property="delFlag" column="DEL_FLAG"/>
+    </resultMap>
+
+    <sql id="selectSysAreaVo">
+        select ID, PARENT_ID, PARENT_IDS, NAME, SORT, PARENT_CODE, CODE, TYPE, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG from sys_area
+    </sql>
+
+    <select id="selectSysAreaList" parameterType="SysArea" resultMap="SysAreaResult">
+        <include refid="selectSysAreaVo"/>
+        <where>
+            and del_flag='0'
+            <if test="parentId != null  and parentId != ''">and PARENT_ID = #{parentId}</if>
+            <if test="parentIds != null  and parentIds != ''">and PARENT_IDS = #{parentIds}</if>
+            <if test="name != null  and name != ''">and NAME like concat('%', #{name}, '%')</if>
+            <if test="sort != null ">and SORT = #{sort}</if>
+            <if test="parentCode != null  and parentCode != ''">and PARENT_CODE = #{parentCode}</if>
+            <if test="code != null  and code != ''">and CODE = #{code}</if>
+            <if test="type != null  and type != ''">and TYPE = #{type}</if>
+            <if test="createBy != null  and createBy != ''">and CREATE_BY = #{createBy}</if>
+            <if test="createDate != null ">and CREATE_DATE = #{createDate}</if>
+            <if test="updateBy != null  and updateBy != ''">and UPDATE_BY = #{updateBy}</if>
+            <if test="updateDate != null ">and UPDATE_DATE = #{updateDate}</if>
+            <if test="remarks != null  and remarks != ''">and REMARKS = #{remarks}</if>
+            <if test="delFlag != null  and delFlag != ''">and DEL_FLAG = #{delFlag}</if>
+        </where>
+    </select>
+
+    <select id="selectSysAreaById" parameterType="String" resultMap="SysAreaResult">
+        <include refid="selectSysAreaVo"/>
+        where ID = #{id}
+    </select>
+
+    <insert id="insertSysArea" parameterType="SysArea">
+        insert into sys_area
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">ID,</if>
+            <if test="parentId != null and parentId != ''">PARENT_ID,</if>
+            <if test="parentIds != null and parentIds != ''">PARENT_IDS,</if>
+            <if test="name != null and name != ''">NAME,</if>
+            <if test="sort != null">SORT,</if>
+            <if test="parentCode != null">PARENT_CODE,</if>
+            <if test="code != null">CODE,</if>
+            <if test="type != null">TYPE,</if>
+            <if test="createBy != null and createBy != ''">CREATE_BY,</if>
+            <if test="createDate != null">CREATE_DATE,</if>
+            <if test="updateBy != null and updateBy != ''">UPDATE_BY,</if>
+            <if test="updateDate != null">UPDATE_DATE,</if>
+            <if test="remarks != null">REMARKS,</if>
+            <if test="delFlag != null and delFlag != ''">DEL_FLAG,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="parentId != null and parentId != ''">#{parentId},</if>
+            <if test="parentIds != null and parentIds != ''">#{parentIds},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="sort != null">#{sort},</if>
+            <if test="parentCode != null">#{parentCode},</if>
+            <if test="code != null">#{code},</if>
+            <if test="type != null">#{type},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            <if test="createDate != null">#{createDate},</if>
+            <if test="updateBy != null and updateBy != ''">#{updateBy},</if>
+            <if test="updateDate != null">#{updateDate},</if>
+            <if test="remarks != null">#{remarks},</if>
+            <if test="delFlag != null and delFlag != ''">#{delFlag},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSysArea" parameterType="SysArea">
+        update sys_area
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="parentId != null and parentId != ''">PARENT_ID = #{parentId},</if>
+            <if test="parentIds != null and parentIds != ''">PARENT_IDS = #{parentIds},</if>
+            <if test="name != null and name != ''">NAME = #{name},</if>
+            <if test="sort != null">SORT = #{sort},</if>
+            <if test="parentCode != null">PARENT_CODE = #{parentCode},</if>
+            <if test="code != null">CODE = #{code},</if>
+            <if test="type != null">TYPE = #{type},</if>
+            <if test="createBy != null and createBy != ''">CREATE_BY = #{createBy},</if>
+            <if test="createDate != null">CREATE_DATE = #{createDate},</if>
+            <if test="updateBy != null and updateBy != ''">UPDATE_BY = #{updateBy},</if>
+            <if test="updateDate != null">UPDATE_DATE = #{updateDate},</if>
+            <if test="remarks != null">REMARKS = #{remarks},</if>
+            <if test="delFlag != null and delFlag != ''">DEL_FLAG = #{delFlag},</if>
+        </trim>
+        where ID = #{id}
+    </update>
+
+    <delete id="deleteSysAreaById" parameterType="String">
+        delete from sys_area where ID = #{id}
+    </delete>
+
+    <delete id="deleteSysAreaByIds" parameterType="String">
+        delete from sys_area where ID in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="deleteLogicSysAreaById" parameterType="String">
+        update sys_area
+        set del_flag='1'
+        where ID = #{id}
+    </update>
+
+    <update id="deleteLogicSysAreaByIds" parameterType="String">
+        update sys_area
+        set del_flag='1'
+        where ID in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+</mapper>

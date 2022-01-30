@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itssky.modules.particle.mapper.ParticleConfigMapper">
+
+    <resultMap type="ParticleConfig" id="ParticleConfigResult">
+        <result property="configId" column="config_id"/>
+        <result property="configName" column="config_name"/>
+        <result property="requestPath" column="request_path"/>
+        <result property="configParams" column="config_params"/>
+        <result property="status" column="status"/>
+        <result property="tableId" column="table_id"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+        <result property="delFlag" column="del_flag"/>
+    </resultMap>
+
+    <sql id="selectParticleConfigVo">
+        select config_id, config_name, config_params, request_path, status, table_id, create_by, create_time, update_by, update_time, remark, del_flag from particle_config
+    </sql>
+
+    <select id="selectParticleConfigList" parameterType="ParticleConfig" resultMap="ParticleConfigResult">
+        <include refid="selectParticleConfigVo"/>
+        <where>
+            and del_flag='0'
+            <if test="configName != null  and configName != ''">and config_name like concat('%', #{configName}, '%')
+            </if>
+            <if test="requestPath != null  and requestPath != ''">and request_path = #{requestPath}</if>
+            <if test="configParams != null  and configParams != ''">and config_params = #{configParams}</if>
+            <if test="status != null  and status != ''">and status = #{status}</if>
+            <if test="tableId != null  and tableId != ''">and table_id = #{tableId}</if>
+        </where>
+    </select>
+
+    <select id="selectParticleConfigById" parameterType="Long" resultMap="ParticleConfigResult">
+        <include refid="selectParticleConfigVo"/>
+        where config_id = #{configId}
+    </select>
+
+    <insert id="insertParticleConfig" parameterType="ParticleConfig" useGeneratedKeys="true" keyProperty="configId">
+        insert into particle_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="configName != null and configName != ''">config_name,</if>
+            <if test="requestPath != null">request_path,</if>
+            <if test="configParams != null">config_params,</if>
+            <if test="status != null">status,</if>
+            <if test="tableId != null">table_id,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="delFlag != null">del_flag,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="configName != null and configName != ''">#{configName},</if>
+            <if test="requestPath != null">#{requestPath},</if>
+            <if test="configParams != null">#{configParams},</if>
+            <if test="status != null">#{status},</if>
+            <if test="tableId != null">#{tableId},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+        </trim>
+    </insert>
+
+    <update id="updateParticleConfig" parameterType="ParticleConfig">
+        update particle_config
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="configName != null and configName != ''">config_name = #{configName},</if>
+            <if test="requestPath != null">request_path = #{requestPath},</if>
+            <if test="configParams != null">config_params = #{configParams},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="tableId != null">table_id = #{tableId},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+        </trim>
+        where config_id = #{configId}
+    </update>
+
+    <delete id="deleteParticleConfigById" parameterType="Long">
+        delete from particle_config where config_id = #{configId}
+    </delete>
+
+    <delete id="deleteParticleConfigByIds" parameterType="String">
+        delete from particle_config where config_id in
+        <foreach item="configId" collection="array" open="(" separator="," close=")">
+            #{configId}
+        </foreach>
+    </delete>
+
+    <update id="deleteLogicParticleConfigById" parameterType="Long">
+        update particle_config
+        set del_flag='1'
+        where config_id = #{configId}
+    </update>
+
+    <update id="deleteLogicParticleConfigByIds" parameterType="Long">
+        update particle_config
+        set del_flag='1'
+        where config_id in
+        <foreach item="configId" collection="array" open="(" separator="," close=")">
+            #{configId}
+        </foreach>
+    </update>
+</mapper>

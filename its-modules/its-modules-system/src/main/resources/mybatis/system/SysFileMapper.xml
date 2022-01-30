@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itssky.modules.common.security.mapper.SysFileMapper">
+
+    <resultMap type="SysFile" id="SysFileResult">
+        <result property="fileId" column="file_id"/>
+        <result property="fileName" column="file_name"/>
+        <result property="fileOriginName" column="file_origin_name"/>
+        <result property="fileType" column="file_type"/>
+        <result property="filePath" column="file_path"/>
+        <result property="fileSize" column="file_size"/>
+        <result property="searchId" column="search_id"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="delFlag" column="del_flag"/>
+    </resultMap>
+
+    <sql id="selectSysFileVo">
+        select file_id, file_name, file_origin_name, file_type, file_path, file_size, search_id, create_by, create_time, update_by, update_time, del_flag from sys_file
+    </sql>
+
+    <select id="selectSysFileList" parameterType="SysFile" resultMap="SysFileResult">
+        <include refid="selectSysFileVo"/>
+        <where>
+            and del_flag='0'
+            <if test="fileName != null  and fileName != ''">and file_name like concat('%', #{fileName}, '%')</if>
+            <if test="fileType != null  and fileType != ''">and file_type = #{fileType}</if>
+            <if test="filePath != null  and filePath != ''">and file_path = #{filePath}</if>
+            <if test="searchId != null ">and search_id = #{searchId}</if>
+        </where>
+    </select>
+
+    <select id="selectSysFileById" parameterType="Long" resultMap="SysFileResult">
+        <include refid="selectSysFileVo"/>
+        where file_id = #{fileId}
+    </select>
+
+    <select id="selectSysFileBySearchId" parameterType="Long" resultMap="SysFileResult">
+        <include refid="selectSysFileVo"/>
+        where search_id = #{searchId}
+    </select>
+
+    <insert id="insertSysFile" parameterType="SysFile" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_file
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="fileName != null">file_name,</if>
+            <if test="fileOriginName != null">file_origin_name,</if>
+            <if test="fileType != null and fileType != ''">file_type,</if>
+            <if test="filePath != null">file_path,</if>
+            <if test="fileSize != null">file_size,</if>
+            <if test="searchId != null">search_id,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="delFlag != null">del_flag,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="fileName != null">#{fileName},</if>
+            <if test="fileOriginName != null">#{fileOriginName},</if>
+            <if test="fileType != null and fileType != ''">#{fileType},</if>
+            <if test="filePath != null">#{filePath},</if>
+            <if test="fileSize != null">#{fileSize},</if>
+            <if test="searchId != null">#{searchId},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSysFile" parameterType="SysFile">
+        update sys_file
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="fileName != null">file_name = #{fileName},</if>
+            <if test="fileOriginName != null">file_origin_name = #{fileOriginName},</if>
+            <if test="fileType != null and fileType != ''">file_type = #{fileType},</if>
+            <if test="filePath != null and filePath != ''">file_path = #{filePath},</if>
+            <if test="fileSize != null and fileSize != ''">file_size = #{fileSize},</if>
+            <if test="searchId != null">search_id = #{searchId},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            update_time = sysdate(),
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+        </trim>
+        where file_id = #{fileId}
+    </update>
+
+    <delete id="deleteSysFileById" parameterType="Long">
+        delete from sys_file where file_id = #{fileId}
+    </delete>
+
+    <delete id="deleteSysFileByIds" parameterType="String">
+        delete from sys_file where file_id in
+        <foreach item="fileId" collection="array" open="(" separator="," close=")">
+            #{fileId}
+        </foreach>
+    </delete>
+
+    <update id="deleteLogicSysFileById" parameterType="Long">
+        update sys_file
+        set del_flag='1'
+        where file_id = #{fileId}
+    </update>
+
+    <update id="deleteLogicSysFileByIds" parameterType="Long">
+        update sys_file
+        set del_flag='1'
+        where file_id in
+        <foreach item="fileId" collection="array" open="(" separator="," close=")">
+            #{fileId}
+        </foreach>
+    </update>
+</mapper>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>its</artifactId>
+        <groupId>com.itssky</groupId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>its-modules</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>its-modules-gen</module>
+        <module>its-modules-job</module>
+        <module>its-modules-system</module>
+        <module>its-modules-monitor</module>
+        <module>its-modules-demo</module>
+        <module>its-modules-particle</module>
+        <module>its-modules-test</module>
+    </modules>
+</project>

@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.itssky.modules.common.sequence.config.IdGeneratorAutoConfig

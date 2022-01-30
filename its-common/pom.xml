@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>its</artifactId>
+        <groupId>com.itssky</groupId>
+        <version>1.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>its-common</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>its-common-core</module>
+        <module>its-common-datascope</module>
+        <module>its-common-redis</module>
+        <module>its-common-security</module>
+        <module>its-common-sequence</module>
+    </modules>
+
+
+</project>

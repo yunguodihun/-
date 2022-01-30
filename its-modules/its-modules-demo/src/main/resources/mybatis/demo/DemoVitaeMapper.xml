@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itssky.modules.demo.mapper.DemoVitaeMapper">
+
+    <resultMap type="DemoVitae" id="DemoVitaeResult">
+        <result property="vitaeId" column="vitae_id"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="code" column="code"/>
+        <result property="birthday" column="birthday"/>
+        <result property="sort" column="sort"/>
+        <result property="name" column="name"/>
+        <result property="position" column="position"/>
+        <result property="email" column="email"/>
+        <result property="phoneNumber" column="phone_number"/>
+        <result property="sex" column="sex"/>
+        <result property="avatar" column="avatar"/>
+        <result property="password" column="password"/>
+        <result property="status" column="status"/>
+        <result property="entryStartTime" column="entry_start_time"/>
+        <result property="entryEndTime" column="entry_end_time"/>
+        <result property="adeptTechnology" column="adept_technology"/>
+        <result property="educationExperience" column="education_experience"/>
+        <result property="file" column="file"/>
+        <result property="score" column="score"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+        <association property="dept" column="dept_id" javaType="SysDept" resultMap="deptResult"/>
+    </resultMap>
+
+    <resultMap id="deptResult" type="SysDept">
+        <id property="deptId" column="dept_id"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="deptName" column="dept_name"/>
+        <result property="orderNum" column="order_num"/>
+        <result property="leader" column="leader"/>
+        <result property="status" column="dept_status"/>
+    </resultMap>
+
+    <sql id="selectDemoVitaeVo">
+        select a.vitae_id, a.dept_id, a.code, a.birthday, a.sort, a.name, a.position, a.email, a.phone_number, a.sex, a.avatar, a.password, a.status, a.entry_start_time, a.entry_end_time, a.adept_technology, a.education_experience, a.file, a.score, a.del_flag, a.create_by, a.create_time, a.update_by, a.update_time, a.remark, b.dept_name from demo_vitae a
+        left join sys_dept b on a.dept_id = b.dept_id
+    </sql>
+
+    <select id="selectDemoVitaeList" parameterType="DemoVitae" resultMap="DemoVitaeResult">
+        <include refid="selectDemoVitaeVo"/>
+        <where>
+            and a.del_flag='0'
+            <if test="deptId != null ">and a.dept_id = #{deptId}</if>
+            <if test="code != null  and code != ''">and a.code = #{code}</if>
+            <if test="birthday != null ">and a.birthday = #{birthday}</if>
+            <if test="name != null  and name != ''">and a.name like concat('%', #{name}, '%')</if>
+            <if test="sex != null  and sex != ''">and a.sex = #{sex}</if>
+            <if test="password != null  and password != ''">and a.password = #{password}</if>
+            <if test="status != null  and status != ''">and a.status = #{status}</if>
+            <if test="adeptTechnology != null  and adeptTechnology != ''">and a.adept_technology = #{adeptTechnology}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectDemoVitaeById" parameterType="Long" resultMap="DemoVitaeResult">
+        <include refid="selectDemoVitaeVo"/>
+        where a.vitae_id = #{vitaeId}
+    </select>
+
+    <insert id="insertDemoVitae" parameterType="DemoVitae" useGeneratedKeys="true" keyProperty="vitaeId">
+        insert into demo_vitae
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deptId != null">dept_id,</if>
+            <if test="code != null and code != ''">code,</if>
+            <if test="birthday != null">birthday,</if>
+            <if test="sort != null">sort,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="position != null and position != ''">position,</if>
+            <if test="email != null">email,</if>
+            <if test="phoneNumber != null">phone_number,</if>
+            <if test="sex != null">sex,</if>
+            <if test="avatar != null">avatar,</if>
+            <if test="password != null">password,</if>
+            <if test="status != null">status,</if>
+            <if test="entryStartTime != null">entry_start_time,</if>
+            <if test="entryEndTime != null">entry_end_time,</if>
+            <if test="adeptTechnology != null">adept_technology,</if>
+            <if test="educationExperience != null">education_experience,</if>
+            <if test="file != null">file,</if>
+            <if test="score != null">score,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deptId != null">#{deptId},</if>
+            <if test="code != null and code != ''">#{code},</if>
+            <if test="birthday != null">#{birthday},</if>
+            <if test="sort != null">#{sort},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="position != null and position != ''">#{position},</if>
+            <if test="email != null">#{email},</if>
+            <if test="phoneNumber != null">#{phoneNumber},</if>
+            <if test="sex != null">#{sex},</if>
+            <if test="avatar != null">#{avatar},</if>
+            <if test="password != null">#{password},</if>
+            <if test="status != null">#{status},</if>
+            <if test="entryStartTime != null">#{entryStartTime},</if>
+            <if test="entryEndTime != null">#{entryEndTime},</if>
+            <if test="adeptTechnology != null">#{adeptTechnology},</if>
+            <if test="educationExperience != null">#{educationExperience},</if>
+            <if test="file != null">#{file},</if>
+            <if test="score != null">#{score},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateDemoVitae" parameterType="DemoVitae">
+        update demo_vitae
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deptId != null">dept_id = #{deptId},</if>
+            <if test="code != null and code != ''">code = #{code},</if>
+            <if test="birthday != null">birthday = #{birthday},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="position != null and position != ''">position = #{position},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="phoneNumber != null">phone_number = #{phoneNumber},</if>
+            <if test="sex != null">sex = #{sex},</if>
+            <if test="avatar != null">avatar = #{avatar},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="entryStartTime != null">entry_start_time = #{entryStartTime},</if>
+            <if test="entryEndTime != null">entry_end_time = #{entryEndTime},</if>
+            <if test="adeptTechnology != null">adept_technology = #{adeptTechnology},</if>
+            <if test="educationExperience != null">education_experience = #{educationExperience},</if>
+            <if test="file != null">file = #{file},</if>
+            <if test="score != null">score = #{score},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where vitae_id = #{vitaeId}
+    </update>
+
+    <delete id="deleteDemoVitaeById" parameterType="Long">
+        delete from demo_vitae where vitae_id = #{vitaeId}
+    </delete>
+
+    <delete id="deleteDemoVitaeByIds" parameterType="String">
+        delete from demo_vitae where vitae_id in
+        <foreach item="vitaeId" collection="array" open="(" separator="," close=")">
+            #{vitaeId}
+        </foreach>
+    </delete>
+
+    <update id="deleteLogicDemoVitaeById" parameterType="Long">
+        update demo_vitae
+        set del_flag='1'
+        where vitae_id = #{vitaeId}
+    </update>
+
+    <update id="deleteLogicDemoVitaeByIds" parameterType="Long">
+        update demo_vitae
+        set del_flag='1'
+        where vitae_id in
+        <foreach item="vitaeId" collection="array" open="(" separator="," close=")">
+            #{vitaeId}
+        </foreach>
+    </update>
+</mapper>
